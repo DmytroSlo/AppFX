@@ -1,9 +1,15 @@
 package com.dmslob.app_fx.appfx;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -107,6 +113,32 @@ public class InlineFX extends Application {
         lastTestInline3.setLayoutX(280);
         lastTestInline3.setLayoutY(165);
 
+        // RadioButtonBox Product
+        RadioButton p0CheckBox = new RadioButton("P0");
+        p0CheckBox.setSelected(true);
+        p0CheckBox.setLayoutX(265);
+        p0CheckBox.setLayoutY(10);
+
+        RadioButton p15CheckBox = new RadioButton("P15");
+        p15CheckBox.setLayoutX(305);
+        p15CheckBox.setLayoutY(10);
+
+        RadioButton p21CheckBox = new RadioButton("P21");
+        p21CheckBox.setLayoutX(350);
+        p21CheckBox.setLayoutY(10);
+
+        ToggleGroup toggleGroup = new ToggleGroup();
+        p21CheckBox.setToggleGroup(toggleGroup);
+        p15CheckBox.setToggleGroup(toggleGroup);
+        p0CheckBox.setToggleGroup(toggleGroup);
+
+        toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
+                RadioButton selected = (RadioButton) t1;
+            }
+        });
+
         Group group = new Group();
         group.getChildren().add(uppMenu);
         group.getChildren().add(imageView);
@@ -122,6 +154,9 @@ public class InlineFX extends Application {
         group.getChildren().add(lastTestInline1);
         group.getChildren().add(lastTestInline2);
         group.getChildren().add(lastTestInline3);
+        group.getChildren().add(p0CheckBox);
+        group.getChildren().add(p15CheckBox);
+        group.getChildren().add(p21CheckBox);
 
         Scene scene = new Scene(group,400, 200, Color.web("#E0E0DA"));
 
