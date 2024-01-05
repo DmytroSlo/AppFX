@@ -42,28 +42,34 @@ public class Zadanie extends Application {
         restartButton.setLayoutY(70);
         restartButton.setDisable(true);
 
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i <= 100; i++){
+                    double progressValue = (double) i / 100;
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setProgress(progressValue);
+                            if(progressBar.getProgress() == 1.0){
+                                text2.setVisible(true);
+                                restartButton.setDisable(false);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 startButton.setDisable(true);
-                Thread thread = new Thread(() -> {
-                    for(int i = 0; i <= 100; i++){
-                        double progress = (double)i / 100;
-                        Platform.runLater(() -> progressBar.setProgress(progress));
-
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                        if(progressBar.getProgress() == 1.0){
-                            restartButton.setDisable(false);
-                            text2.setVisible(true);
-                        }
-                    }
-                });
-
                 thread.start();
             }
         });
